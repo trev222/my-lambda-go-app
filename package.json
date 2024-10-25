@@ -1,0 +1,23 @@
+{
+  "name": "my-lambda-go-app",
+  "version": "1.0.0",
+  "description": "Simple Lambda Go API",
+  "scripts": {
+    "start": "npm run stop && nodemon --watch . --ext go --exec \"npm run build && npm run run-container\"",
+    "stop": "npm run stop-container",
+    "stop-container": "docker ps -a --filter 'name=my-lambda-go-app' -q | xargs -r docker rm -f || echo 'No container found'",
+    "build": "docker build -t my-lambda-go-app .",
+    "run-container": "docker ps -a --filter 'name=my-lambda-go-app' -q | xargs -r docker rm -f && docker run --name my-lambda-go-app -p 8080:8080 -v $(pwd):/app --rm my-lambda-go-app",
+
+
+    "lambda-build": "docker build --target lambda -t my-lambda-go-app .",
+    "lambda-tag": "docker tag my-lambda-go-app:latest 339712943371.dkr.ecr.ap-northeast-1.amazonaws.com/my-lambda-go-app:latest",
+    "lambda-push": "docker push 339712943371.dkr.ecr.ap-northeast-1.amazonaws.com/my-lambda-go-app:latest",
+    
+    "lambda-package": "sam package --s3-bucket my-lambda-go-app-bucket --output-template-file packaged.yaml",
+    "lambda-deploy": "sam deploy --template-file packaged.yaml --stack-name my-lambda-go-app-stack --capabilities CAPABILITY_IAM"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}

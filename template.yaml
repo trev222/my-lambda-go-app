@@ -1,0 +1,67 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+
+Resources:
+  PingFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      Runtime: provided.al2
+      CodeUri: ./
+      MemorySize: 128
+      Timeout: 5
+      Environment:
+        Variables:
+          HANDLER_NAME: ping
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./
+      DockerTag: golang:1.23-alpine
+
+  HelloFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      Runtime: provided.al2
+      CodeUri: ./
+      MemorySize: 128
+      Timeout: 5
+      Environment:
+        Variables:
+          HANDLER_NAME: hello
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./
+      DockerTag: golang:1.23-alpine
+
+  AddFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      Runtime: provided.al2
+      CodeUri: ./
+      MemorySize: 128
+      Timeout: 5
+      Environment:
+        Variables:
+          HANDLER_NAME: add
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: ./
+      DockerTag: golang:1.23-alpine
+
+Outputs:
+  PingFunctionArn:
+    Value: !GetAtt PingFunction.Arn
+    Export:
+      Name: PingFunctionArn
+
+  HelloFunctionArn:
+    Value: !GetAtt HelloFunction.Arn
+    Export:
+      Name: HelloFunctionArn
+
+  AddFunctionArn:
+    Value: !GetAtt AddFunction.Arn
+    Export:
+      Name: AddFunctionArn

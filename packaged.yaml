@@ -1,0 +1,64 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  PingFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      Runtime: provided.al2
+      CodeUri: s3://my-lambda-go-app-bucket/d41d8cd98f00b204e9800998ecf8427e
+      MemorySize: 128
+      Timeout: 5
+      Environment:
+        Variables:
+          HANDLER_NAME: ping
+    Metadata:
+      SamResourceId: PingFunction
+  HelloFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      Runtime: provided.al2
+      CodeUri: s3://my-lambda-go-app-bucket/d41d8cd98f00b204e9800998ecf8427e
+      MemorySize: 128
+      Timeout: 5
+      Environment:
+        Variables:
+          HANDLER_NAME: hello
+    Metadata:
+      SamResourceId: HelloFunction
+  AddFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      Runtime: provided.al2
+      CodeUri: s3://my-lambda-go-app-bucket/d41d8cd98f00b204e9800998ecf8427e
+      MemorySize: 128
+      Timeout: 5
+      Environment:
+        Variables:
+          HANDLER_NAME: add
+    Metadata:
+      SamResourceId: AddFunction
+Outputs:
+  PingFunctionArn:
+    Value:
+      Fn::GetAtt:
+      - PingFunction
+      - Arn
+    Export:
+      Name: PingFunctionArn
+  HelloFunctionArn:
+    Value:
+      Fn::GetAtt:
+      - HelloFunction
+      - Arn
+    Export:
+      Name: HelloFunctionArn
+  AddFunctionArn:
+    Value:
+      Fn::GetAtt:
+      - AddFunction
+      - Arn
+    Export:
+      Name: AddFunctionArn

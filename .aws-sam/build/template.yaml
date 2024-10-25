@@ -1,0 +1,73 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Resources:
+  PingFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      Runtime: provided.al2
+      CodeUri: PingFunction
+      MemorySize: 128
+      Timeout: 5
+      Environment:
+        Variables:
+          HANDLER_NAME: ping
+    Metadata:
+      DockerContext: /Users/hashportpc/Documents/GitHub/my-lambda-go-app
+      DockerTag: golang:1.23-alpine
+      Dockerfile: Dockerfile
+      SamResourceId: PingFunction
+  HelloFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      Runtime: provided.al2
+      CodeUri: HelloFunction
+      MemorySize: 128
+      Timeout: 5
+      Environment:
+        Variables:
+          HANDLER_NAME: hello
+    Metadata:
+      DockerContext: /Users/hashportpc/Documents/GitHub/my-lambda-go-app
+      DockerTag: golang:1.23-alpine
+      Dockerfile: Dockerfile
+      SamResourceId: HelloFunction
+  AddFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: main
+      Runtime: provided.al2
+      CodeUri: AddFunction
+      MemorySize: 128
+      Timeout: 5
+      Environment:
+        Variables:
+          HANDLER_NAME: add
+    Metadata:
+      DockerContext: /Users/hashportpc/Documents/GitHub/my-lambda-go-app
+      DockerTag: golang:1.23-alpine
+      Dockerfile: Dockerfile
+      SamResourceId: AddFunction
+Outputs:
+  PingFunctionArn:
+    Value:
+      Fn::GetAtt:
+      - PingFunction
+      - Arn
+    Export:
+      Name: PingFunctionArn
+  HelloFunctionArn:
+    Value:
+      Fn::GetAtt:
+      - HelloFunction
+      - Arn
+    Export:
+      Name: HelloFunctionArn
+  AddFunctionArn:
+    Value:
+      Fn::GetAtt:
+      - AddFunction
+      - Arn
+    Export:
+      Name: AddFunctionArn
